@@ -8,7 +8,7 @@ export const datasourceConfig: PostgresConnectionOptions = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [],
+  entities: ['../**/*.entity.ts'],
 };
 
 const datasource = new DataSource(datasourceConfig);
