@@ -7,9 +7,17 @@ import { ProductModule } from './product/product.module';
 import { LocationModule } from './location/location.module';
 import { ConfigModule } from '@nestjs/config';
 import { datasourceConfig } from './config/typeorm-datasource';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { join } from 'path';
 
 @Module({
   imports: [
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: true,
+      playground: true,
+    }),
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       useFactory: () => datasourceConfig(),
