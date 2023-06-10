@@ -2,6 +2,8 @@ import { Mutation, Query, Resolver, Args } from '@nestjs/graphql';
 import { ProductCategory } from '../entities/product-category.entity';
 import { ProductCategoryService } from '../services/product-category.service';
 import { CreateProductCategoryDto } from '../dtos/create-product-category.dto';
+import { UseGuards } from '@nestjs/common';
+import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 
 @Resolver(ProductCategory)
 export class ProductCategoryResolver {
@@ -9,6 +11,7 @@ export class ProductCategoryResolver {
     private readonly productCategoryService: ProductCategoryService,
   ) {}
 
+  @UseGuards(AuthenticatedGuard)
   @Query(() => [ProductCategory])
   async productCategories(): Promise<ProductCategory[]> {
     return this.productCategoryService.getAllProductCategories();

@@ -14,7 +14,6 @@ export class User {
   username: string;
 
   @Column()
-  @Field()
   password: string;
 
   @Column('simple-array')

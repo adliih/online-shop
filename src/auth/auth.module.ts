@@ -11,7 +11,7 @@ import configuration from '../config/configuration';
 @Module({
   imports: [
     ConfigModule,
-    PassportModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: configuration().auth.jwtSecret,
