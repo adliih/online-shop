@@ -34,12 +34,18 @@ export class Product {
   weight: number;
 
   @ManyToOne(() => ProductCategory)
-  @JoinColumn()
   @Field(() => ProductCategory)
   category: ProductCategory;
 
+  @Column()
+  @Field()
+  categoryId: number;
+
   @ManyToOne(() => Supplier)
-  @JoinColumn()
-  @Field(() => Supplier)
-  supplier: Supplier;
+  @Field(() => Supplier, { nullable: true })
+  supplier?: Supplier;
+
+  @Column({ nullable: true })
+  @Field({ nullable: true })
+  supplierId?: number;
 }
