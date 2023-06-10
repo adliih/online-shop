@@ -9,6 +9,9 @@ import { ConfigModule } from '@nestjs/config';
 import { datasourceConfig } from './config/typeorm-datasource';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import configuration from './config/configuration';
 
 @Module({
   imports: [
@@ -17,7 +20,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       autoSchemaFile: true,
       playground: true,
     }),
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({}),
     TypeOrmModule.forRootAsync({
       useFactory: datasourceConfig,
     }),
@@ -26,6 +29,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
     SupplierModule,
     ProductModule,
     LocationModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
