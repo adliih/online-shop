@@ -12,8 +12,13 @@ import { CreateProductDto } from '../dtos/create-product.dto';
 import { ProductService } from '../services/product.service';
 import { ProductCategory } from '../entities/product-category.entity';
 import { ProductCategoryDataLoader } from '../dataloaders/product-category.dataloader';
+import { UseGuards } from '@nestjs/common';
+import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
+import { RoleGuard } from 'src/auth/role.guard';
+import { UserRole } from 'src/user/user-role.enum';
 
 @Resolver(Product)
+@UseGuards(AuthenticatedGuard)
 export class ProductResolver {
   constructor(
     private readonly productService: ProductService,
@@ -30,11 +35,13 @@ export class ProductResolver {
     return this.productService.getProductById(id);
   }
 
+  @UseGuards(RoleGuard(UserRole.ADMIN))
   @Mutation(() => Product)
   createProduct(@Args('input') productInput: CreateProductDto) {
     return this.productService.createProduct(productInput);
   }
 
+  @UseGuards(RoleGuard(UserRole.ADMIN))
   @Mutation(() => Product)
   updateProduct(
     @Args('id', { type: () => ID }) id: number,
@@ -43,6 +50,7 @@ export class ProductResolver {
     return this.productService.updateProduct(id, productInput);
   }
 
+  @UseGuards(RoleGuard(UserRole.ADMIN))
   @Mutation(() => Boolean)
   deleteProduct(@Args('id', { type: () => ID }) id: number) {
     return this.productService.deleteProduct(id);

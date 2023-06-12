@@ -4,19 +4,22 @@ import { ProductCategoryService } from '../services/product-category.service';
 import { CreateProductCategoryDto } from '../dtos/create-product-category.dto';
 import { UseGuards } from '@nestjs/common';
 import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
+import { RoleGuard } from 'src/auth/role.guard';
+import { UserRole } from 'src/user/user-role.enum';
 
 @Resolver(ProductCategory)
+@UseGuards(AuthenticatedGuard)
 export class ProductCategoryResolver {
   constructor(
     private readonly productCategoryService: ProductCategoryService,
   ) {}
 
-  @UseGuards(AuthenticatedGuard)
   @Query(() => [ProductCategory])
   async productCategories(): Promise<ProductCategory[]> {
     return this.productCategoryService.getAllProductCategories();
   }
 
+  @UseGuards(RoleGuard(UserRole.ADMIN))
   @Mutation(() => ProductCategory)
   async createProductCategory(
     @Args('createProductCategoryDto')
