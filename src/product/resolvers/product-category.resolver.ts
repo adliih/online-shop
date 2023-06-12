@@ -22,11 +22,9 @@ export class ProductCategoryResolver {
   @UseGuards(RoleGuard(UserRole.ADMIN))
   @Mutation(() => ProductCategory)
   async createProductCategory(
-    @Args('createProductCategoryDto')
-    createProductCategoryDto: CreateProductCategoryDto,
+    @Args('input')
+    input: CreateProductCategoryDto,
   ): Promise<ProductCategory> {
-    return this.productCategoryService.createProductCategory(
-      createProductCategoryDto,
-    );
+    return this.productCategoryService.createProductCategory(input);
   }
 }
