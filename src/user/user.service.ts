@@ -15,7 +15,7 @@ export class UserService {
   }: Partial<User>): Promise<User> {
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const isUsernameExist = this.userRepository
+    const isUsernameExist = await this.userRepository
       .countBy({ username })
       .then((res) => res > 0);
 
